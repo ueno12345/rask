@@ -19,6 +19,7 @@ class TasksController < ApplicationController
     @projects = Project.all
     @tags = Tag.all
     @task_states = TaskState.all
+    @task.description = params[:desc_header]
 
     project_id = params[:project_id]
     unless project_id.nil?
@@ -41,6 +42,10 @@ class TasksController < ApplicationController
 
     if @task.save!
       flash[:success] = "タスクを追加しました"
+      matched = task_params[:description].match(/\[AI([0-9]+)\]/)
+      if matched != nil
+        ActionItem.find(matched[1]).update(task_url: tasks_path + "/" + @task.id.to_s)
+      end
       redirect_to tasks_path
     else
       redirect_back fallback_location: new_task_path

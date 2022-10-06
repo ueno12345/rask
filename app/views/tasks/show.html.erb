@@ -20,7 +20,16 @@
 
 <div class="my-3">
   <p class="text-xl block font-bold mb-2">説明</p>
-  <%= @task.description %>
+    <% @task.description.each_line do |line| %>
+      <% matched = line.match(/\((.+)\)/) %>
+      <% if matched != nil %>
+        <%== $` %>
+        <%= link_to matched[0], matched[1] %>
+        <%== $' %>
+      <% else %>
+        <%== line %>
+      <% end %>
+    <% end %>
 </div>
 
 <div class="my-3">

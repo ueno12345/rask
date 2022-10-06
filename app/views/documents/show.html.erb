@@ -10,8 +10,24 @@
   <p class="text-xl">所属プロジェクト:
     <%= link_to_if  @document.project&.name, @document.project&.name, @document.project %>
   <p class="text-xl block font-bold mb-2">文書内容</p>
-    <div class="jay_document">
-      <%== JayFlavoredMarkdownConverter.new(@document.description).content %>
+  <div class="jay_document">
+    <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
+    <% desc.each_line do |line| %>
+      <% matched = line.match(/\([^ ]+ !([0-9]+)\)/) %>
+      <% if matched != nil %>
+        <%== $` %>
+        <% task_url = ActionItem.find_by(uid:matched[1].to_i).task_url %>
+        <% if task_url != nil %>
+          <%= link_to matched[0], task_url.to_s %>
+        <% else %>
+          <% message = "Created from [AI#{matched[1]}](#{request.url})" %>
+          <%= link_to matched[0], new_task_path(desc_header: message) %>
+        <% end %>
+        <%== $' %>
+      <% else %>
+        <%== line %>
+      <% end %>
+    <% end %>
     </div>
   </p>
 </div>
