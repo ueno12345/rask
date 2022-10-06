@@ -115,3 +115,40 @@ rask の開発には docker-compose を使用する．
   上記のコマンドのうち，```ContainerName``` は再起動させる rask のコンテナ名である．
   ```ContainerName``` が指定されていない場合，デフォルトでは```rask-3000``` が再起動する．
   ただし，```rask-3000``` 以外のコンテナが起動していた場合は再起動しない．
+
+### systemd
+
+`systemd` を用いて rask を起動したい場合は以下の手順を行う．
+
+- `scripts/systemd_conf/rask.service` の書き換え
+  ```
+  6	[Service]
+  7	# Change path to suit your environment
+  8	WorkingDirectory=<Path to rask repository>
+  9	ExecStart=<Path to rask repository>/scripts/rask-docker.sh start -p 3000
+  10	ExecStop=<Path to rask repository>/scripts/rask-docker.sh stop
+  ```
+  上記のうち，`<Path to rask repository>` をraskが保存されているフォルダのパスに変更する．
+
+- サービスファイルを配置
+  ```
+  $ cp scripts/systemd_conf/rask.service /etc/systemd/system/
+  ```
+
+- rask のサービスファイルを `systemd` に反映
+  ```
+  $ systemctl daemon-reload
+  $ systemctl status rask.service
+  ● rask.service - Rask: Task Management System
+     Loaded: loaded (/etc/systemd/system/rask.service; enabled; vendor preset: enabled)
+     Active: active (running) since Tue YYYY-MM-DD hh:mm:ss JST;
+   Main PID: XXXX (rask-docker.sh)
+      Tasks: XX (limit: XXXXX)
+     Memory: XX.XM
+     CGroup: /system.slice/rask.service
+  ```
+
+- `systemd` を用いて rask を起動
+  ```
+  $ systemctl start rask.service
+  ```
