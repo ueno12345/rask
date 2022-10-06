@@ -9,6 +9,7 @@
     <div>
       <p class="text-xl"><%= tag.name %></p>
       <p>タスク数 : <%= tag.tasks.count %></p>
+      <p>文書数 : <%= tag.documents.count %></p>
     </div>
     <div class="flex-1"></div>
     <% if logged_in? %>

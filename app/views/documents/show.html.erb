@@ -9,6 +9,14 @@
     <%= link_to_if @document.assigner&.name, @document.assigner.name, @document.assigner %>
   <p class="text-xl">所属プロジェクト:
     <%= link_to_if  @document.project&.name, @document.project&.name, @document.project %>
+  </p>
+  <br>
+  <p class="text-xl">タグ:
+    <% @document.tags.each do |tag| %>
+      <%= link_to tag_label(tag), tag %>
+    <% end %>
+  </p>
+  <br>
   <p class="text-xl block font-bold mb-2">文書内容</p>
   <div class="jay_document">
     <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
