@@ -28,6 +28,13 @@ ActiveRecord::Schema.define(version: 2022_10_06_041706) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "document_tags", id: false, force: :cascade do |t|
+    t.integer "document_id", null: false
+    t.integer "tag_id", null: false
+    t.index ["document_id"], name: "index_document_tags_on_document_id"
+    t.index ["tag_id"], name: "index_document_tags_on_tag_id"
+  end
+
   create_table "documents", force: :cascade do |t|
     t.text "content", null: false
     t.integer "creator_id"
@@ -103,6 +110,8 @@ ActiveRecord::Schema.define(version: 2022_10_06_041706) do
   end
 
   add_foreign_key "api_tokens", "users", on_delete: :cascade
+  add_foreign_key "document_tags", "documents"
+  add_foreign_key "document_tags", "tags"
   add_foreign_key "documents", "projects"
   add_foreign_key "documents", "projects", on_delete: :cascade
   add_foreign_key "documents", "users", column: "assigner_id", on_delete: :cascade

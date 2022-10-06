@@ -17,6 +17,7 @@ class DocumentsController < ApplicationController
     @document = Document.new
     @users = User.all
     @projects = Project.all
+    @tags = Tag.all
 
     project_id = params[:project_id]
     unless project_id.nil?
@@ -28,11 +29,13 @@ class DocumentsController < ApplicationController
   def edit
     @users = User.all
     @projects = Project.all
+    @tags = Tag.all
   end
 
   # POST /documents or /documents.json
   def create
     @document = current_user.documents.build(document_params)
+    parse_tag_names(params[:tag_names]) if params[:tag_names]
 
     if @document.save #XXX: save! => save
       flash[:success] = "文書を追加しました"
@@ -44,6 +47,7 @@ class DocumentsController < ApplicationController
 
   # PATCH/PUT /documents/1 or /documents/1.json
   def update
+    parse_tag_names(params[:tag_names]) if params[:tag_names]
     if @document.update(document_params)
       flash[:success] = "文書を更新しました"
       redirect_to documents_path
@@ -76,5 +80,12 @@ class DocumentsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def document_params
     params.require(:document).permit(:assigner_id, :content, :description, :project_id, :start_at, :end_at, :location, :text,)
+  end
+
+  def parse_tag_names(tag_names)
+    @document.tags = tag_names.split.map do |tag_name|
+      tag = Tag.find_by(name: tag_name)
+      tag ? tag : Tag.create(name: tag_name)
+    end
   end
 end
