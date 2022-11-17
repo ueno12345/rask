@@ -5,7 +5,7 @@ class DocumentsController < ApplicationController
   protect_from_forgery :except => [:api_markdown]
   # GET /documents or /documents.json
   def index
-    @documents = Document.all.includes(:user)
+    @documents = Document.all.includes(:user).order(start_at: "DESC")
   end
 
   # GET /documents/1 or /documents/1.json
