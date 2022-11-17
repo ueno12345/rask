@@ -16,8 +16,10 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
     @users = User.all
+    @assigner_id = params[:assigner_id]
     @projects = Project.all
     @tags = Tag.all
+    @task_title = params[:selected_str]
     @task_states = TaskState.all
     @task.description = params[:desc_header]
 
