@@ -5,7 +5,7 @@ class TasksController < ApplicationController
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.all.includes(:user, :state)
+    @tasks = Task.page(params[:page]).per(50).includes(:user, :state)
   end
 
   # GET /tasks/1 or /tasks/1.json
