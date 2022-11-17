@@ -20,16 +20,9 @@
 
 <div class="my-3">
   <p class="text-xl block font-bold mb-2">説明</p>
-    <% @task.description.each_line do |line| %>
-      <% matched = line.match(/\((.+)\)/) %>
-      <% if matched != nil %>
-        <%== $` %>
-        <%= link_to matched[0], matched[1] %>
-        <%== $' %>
-      <% else %>
-        <%== line %>
-      <% end %>
-    <% end %>
+  <div class="markdown-body">
+  <%== JayFlavoredMarkdownConverter.new(@task.description).content %>
+  </div>
 </div>
 
 <div class="my-3">
