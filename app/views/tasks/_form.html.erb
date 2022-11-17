@@ -13,7 +13,7 @@
 
     <div class="field my-4">
     <%= form.label :assigner_id, "担当者", class: "text-xl block font-bold mb-2" %>
-    <%= form.select :assigner_id, @users.map { |u| [u.name, u.id] }, {}, class: "border-2 w-full" %>
+    <%= form.select :assigner_id, @users.map { |u| [u.screen_name, u.id] }, { selected: @assigner_id }, class: "border-2 w-full" %>
   </div>
 
   <div class="field my-4">
@@ -48,7 +48,7 @@
 
   <div class="field my-4">
     <%= form.label :content, "内容", class: "text-xl block font-bold mb-2" %>
-    <%= form.text_field :content, class: "border-2 w-full", placeholder: "タスクの内容を入力してください", required: true %>
+    <%= form.text_field :content, value: @task_title, class: "border-2 w-full", placeholder: "タスクの内容を入力してください", required: true %>
   </div>
 
   <div class="field my-4">
