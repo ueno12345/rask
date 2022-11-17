@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'securerandom'
 
 class ApiTokensController < ApplicationController
