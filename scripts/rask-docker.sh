@@ -8,9 +8,8 @@ DEFAULT_ATTACH_OPTION=it # {i|t|it|d}
 DEFAULT_PORT=3000 # host port which container binds
 DEFAULT_COMMAND="" # command which execute in container
                    # using default entrypoint of image, specify ""
-
+DEFAULT_IMAGE_NAME=rask
 # constant value
-IMAGE_NAME=rask
 SCRIPT_NAME=rask-docker.sh
 
 function print_usage(){
@@ -21,15 +20,15 @@ Usage:
     $SCRIPT_NAME SubCommand
 
 Description:
-    start and stop $IMAGE_NAME on container
+    start and stop $DEFAULT_IMAGE_NAME on container
 
 SubCommands:
-    start    start $IMAGE_NAME container
+    start    start $DEFAULT_IMAGE_NAME container
              for more details, run '$SCRIPT_NAME start -h'
-    stop     stop $IMAGE_NAME container
+    stop     stop $DEFAULT_IMAGE_NAME container
              for more details, run '$SCRIPT_NAME stop -h'
-    status   show conditions of $IMAGE_NAME container
-    restart  restart $IMAGE_NAME container
+    status   show conditions of $DEFAULT_IMAGE_NAME container
+    restart  restart $DEFAULT_IMAGE_NAME container
              for more details, run '$SCRIPT_NAME restart -h'
     help     show this usage
 _EOT_
@@ -41,7 +40,7 @@ Usage:
     $SCRIPT_NAME start [OPTION] [COMMAND]
 
 Description:
-    run $IMAGE_NAME container
+    run $DEFAULT_IMAGE_NAME container
     if COMMAND is specified, run COMMAND instead of dafault entrypoint
 
 Options:
@@ -49,6 +48,7 @@ Options:
     -d         dettach: input and output is discarded
                         This option overrides -a option
     -p number  port: bind 'number' port (default $PORT)
+    -i name    image: use 'name' image (default $DEFAULT_IMAGE_NAME)
     -h         help: show this usage
 _EOT_
 }
@@ -59,9 +59,9 @@ Usage:
     $SCRIPT_NAME stop [CONTAINER]
 
 Description:
-    stop $IMAGE_NAME container
+    stop $DEFAULT_IMAGE_NAME container
     if CONTAINER is specified, stop CONTAINER
-    if CONTAINER is not specified, stop $IMAGE_NAME-$DEFAULT_PORT if only $IMAGE_NAME-$DEFAULT_PORT is running
+    if CONTAINER is not specified, stop $DEFAULT_IMAGE_NAME-$DEFAULT_PORT if only $DEFAULT_IMAGE_NAME-$DEFAULT_PORT is running
 _EOT_
 }
 
@@ -71,9 +71,9 @@ Usage:
     $SCRIPT_NAME restart [CONTAINER]
 
 Description:
-    restart $IMAGE_NAME container
+    restart $DEFAULT_IMAGE_NAME container
     if CONTAINER is specified, restart CONTAINER
-    if CONTAINER is not specified, restart $IMAGE_NAME-$DEFAULT_PORT if only $IMAGE_NAME-$DEFAULT_PORT is running
+    if CONTAINER is not specified, restart $DEFAULT_IMAGE_NAME-$DEFAULT_PORT if only $DEFAULT_IMAGE_NAME-$DEFAULT_PORT is running
 _EOT_
 }
 
@@ -120,8 +120,9 @@ function start(){
     PORT=$DEFAULT_PORT
     COMMAND=$DEFAULT_COMMAND
     ATTACH_OPTION=$DEFAULT_ATTACH_OPTION
+    IMAGE_NAME=$DEFAULT_IMAGE_NAME
     set_start_options $@
-    CONTAINER_NAME="${IMAGE_NAME}-${PORT}"
+    CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${PORT}"
 
     if container_is_running $CONTAINER_NAME; then
         echo "$CONTAINER_NAME is already runnning"
@@ -163,7 +164,7 @@ function start(){
 }
 
 function set_start_options(){
-    while getopts dhap: OPT; do
+    while getopts dhap:i: OPT; do
         case $OPT in
             a)
                 ATTACH_OPTION=it
@@ -178,6 +179,9 @@ function set_start_options(){
             p)
                 PORT=$OPTARG
                 ;;
+            i)
+                IMAGE_NAME=$OPTARG
+                ;;
             *)
                 echo "Invalid option: $OPT"
                 exit 1
@@ -191,9 +195,9 @@ function stop(){
     set_stop_options $@
     if [ $# -eq 0 ]; then
         if only_default_running; then
-            CONTAINER_NAME="${IMAGE_NAME}-${DEFAULT_PORT}"
+            CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT}"
         else
-            echo "${IMAGE_NAME}-${DEFAULT_PORT} is not running or other $IMAGE_NAME container is running."
+            echo "${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT} is not running or other $DEFAULT_IMAGE_NAME container is running."
             print_stop_usage
             exit 1
         fi
@@ -227,9 +231,10 @@ function set_stop_options(){
 }
 
 function status(){
-    if ! count_running_container $IMAGE_NAME; then
+    if ! count_running_container $DEFAULT_IMAGE_NAME; then
         echo "Running container(s):"
-        list_running_container $IMAGE_NAME
+        echo "NAMES       IMAGE"
+        list_running_container $DEFAULT_IMAGE_NAME
     else
        echo "Container is not running"
     fi
@@ -239,9 +244,9 @@ function restart(){
     set_restart_options $@
     if [ $# -eq 0 ]; then
         if only_default_running; then
-            CONTAINER_NAME="${IMAGE_NAME}-${DEFAULT_PORT}"
+            CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT}"
         else
-            echo "${IMAGE_NAME}-${DEFAULT_PORT} is not running or other $IMAGE_NAME container is running."
+            echo "${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT} is not running or other $DEFAULT_IMAGE_NAME container is running."
             print_restart_usage
             exit 1
         fi
@@ -274,9 +279,9 @@ function set_restart_options(){
 }
 
 function only_default_running(){
-    count_running_container $IMAGE_NAME
+    count_running_container $DEFAULT_IMAGE_NAME
     if [ $? = 1 ]; then
-        return $(container_is_running "$IMAGE_NAME-$DEFAULT_PORT")
+        return $(container_is_running "$DEFAULT_IMAGE_NAME-$DEFAULT_PORT")
     else
         return 1
     fi
@@ -291,7 +296,7 @@ function user_belongs_dockergroup(){
 }
 
 function list_running_container(){
-    docker ps --format "table {{.Names}}" | grep $1
+    docker ps --format "table {{.Names}}\t{{.Image}}" | grep $1
 }
 
 function count_running_container(){
