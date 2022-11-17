@@ -233,6 +233,7 @@ function set_stop_options(){
 function status(){
     if ! count_running_container $DEFAULT_IMAGE_NAME; then
         echo "Running container(s):"
+        echo "NAMES       IMAGE"
         list_running_container $DEFAULT_IMAGE_NAME
     else
        echo "Container is not running"
@@ -295,7 +296,7 @@ function user_belongs_dockergroup(){
 }
 
 function list_running_container(){
-    docker ps --format "table {{.Names}}" | grep $1
+    docker ps --format "table {{.Names}}\t{{.Image}}" | grep $1
 }
 
 function count_running_container(){
