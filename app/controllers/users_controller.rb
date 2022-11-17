@@ -38,7 +38,11 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
-      if @user.update(user_params)
+      if User.all.map {|user| user.screen_name}.include?(user_params["screen_name"]) && user_params["screen_name"]!=@user.screen_name
+        flash[:danger] = "このアカウント名は使えません"
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      elsif @user.update(user_params)
         format.html { redirect_to @user, notice: "ユーザ情報を更新しました" }
         format.json { render :show, status: :ok, location: @user }
       else
@@ -64,7 +68,7 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :screen_name)
     end
 
     def correct_user
