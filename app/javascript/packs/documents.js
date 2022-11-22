@@ -1,4 +1,4 @@
-const anchor = document.querySelectorAll("div.jay_document a");
+const anchor = document.querySelectorAll("div.markdown-body a");
 
 anchor.forEach(function(el){
     const new_task_url = el.getAttribute("href");

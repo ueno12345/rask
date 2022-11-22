@@ -18,7 +18,7 @@
   </p>
   <br>
   <p class="text-xl block font-bold mb-2">文書内容</p>
-  <div class="jay_document">
+  <div class="markdown-body">
     <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
     <% desc.each_line do |line| %>
       <% matched = line.match(/\(([^ ]+) !([0-9]+)\)/) %>
