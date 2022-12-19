@@ -158,6 +158,7 @@ function start(){
             -v $PWD/config:/home/rask/config \
             -v $PWD/db/production.sqlite3:/home/rask/db/production.sqlite3 \
             -v $PWD/.env:/home/rask/.env \
+            --rm \
             --name $CONTAINER_NAME \
             $IMAGE_NAME $COMMAND
     fi
@@ -210,7 +211,6 @@ function stop(){
 
     echo -n "trying to stop $CONTAINER_NAME... "
     docker stop $CONTAINER_NAME > /dev/null && \
-    docker rm $CONTAINER_NAME > /dev/null && \
         echo "done."
 }
 
@@ -257,9 +257,15 @@ function restart(){
         exit 1
     fi
 
-    echo -n "trying to restart $CONTAINER_NAME... "
-    docker restart $CONTAINER_NAME > /dev/null && \
-        echo "done."
+    PORT=$(docker inspect --format='{{range $conf := .NetworkSettings.Ports}}{{(index $conf 0).HostPort}} {{end}}' $CONTAINER_NAME)
+    if [ $(docker inspect --format='{{.Config.AttachStdin}}' $CONTAINER_NAME) == "true" ]; then
+        ATTACH_OPTION=a
+    else
+        ATTACH_OPTION=d
+    fi
+
+    stop $CONTAINER_NAME
+    start -p $PORT -$ATTACH_OPTION
 }
 
 function set_restart_options(){
