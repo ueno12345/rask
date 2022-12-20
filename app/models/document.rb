@@ -16,10 +16,10 @@ class Document < ApplicationRecord
   def add_unique_action_item_marker
     desc = ""
     self.description.each_line {|line|
-      matched = line.match(/-->\((.+)\)/)
+    matched = line.match(/-->\(([^!]+)\)/)
       if matched != nil
         @action_item = ActionItem.create(task_url: nil)
-        line.gsub!(/-->\(.+\)/, "-->(#{matched[1]} !#{@action_item.uid})")
+        line.gsub!(/-->\(.+\)/, "-->(#{matched[1]} !:#{@action_item.uid})")
       end
       desc += line
     }
