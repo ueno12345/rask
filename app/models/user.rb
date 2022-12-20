@@ -1,4 +1,15 @@
 class User < ApplicationRecord
+    has_secure_password validations: false
+
+    # github action uses the provider name "github"
+    validate do |record|
+      if (record.password_digest.blank? && record.provider != "github") then
+        record.errors.add(attribute, :blank)
+      end
+    end
+    validates_length_of :password, maximum: ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED
+    validates_confirmation_of :password, allow_blank: true
+
     has_many :tasks, foreign_key: 'creator_id'
     has_many :projects
     has_many :api_tokens, foreign_key: 'user_id'
