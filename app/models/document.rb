@@ -1,7 +1,7 @@
 # coding: utf-8
 class Document < ApplicationRecord
   belongs_to :user, foreign_key: 'creator_id'
-  belongs_to :assigner, foreign_key: 'assigner_id', class_name: 'User'
+  belongs_to :creator, foreign_key: 'creator_id', class_name: 'User'
   belongs_to :project, optional: true
   has_many :document_tags, dependent: :destroy
   has_many :tags, through: :document_tags

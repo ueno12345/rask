@@ -6,7 +6,7 @@
     〜
     <%= @document.end_at&.strftime('%Y-%m-%d %H:%M') %>
   <p class="text-xl">作成者:
-    <%= link_to_if @document.assigner&.name, @document.assigner.name, @document.assigner %>
+    <%= link_to_if @document.creator&.name, @document.creator.name, @document.creator %>
   <p class="text-xl">所属プロジェクト:
     <%= link_to_if  @document.project&.name, @document.project&.name, @document.project %>
   </p>
