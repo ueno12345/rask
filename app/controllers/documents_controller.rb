@@ -79,7 +79,7 @@ class DocumentsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def document_params
-    params.require(:document).permit(:assigner_id, :content, :description, :project_id, :start_at, :end_at, :location, :text,)
+    params.require(:document).permit(:creator_id, :content, :description, :project_id, :start_at, :end_at, :location, :text,)
   end
 
   def parse_tag_names(tag_names)

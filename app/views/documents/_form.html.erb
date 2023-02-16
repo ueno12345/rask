@@ -32,8 +32,8 @@
   </div>
 
   <div class="field my-4">
-    <%= form.label :assigner_id, "作成者", class: "text-xl block font-bold mb-2" %>
-    <%= form.select :assigner_id, @users.map { |u| [u.name, u.id] }, {}, class: "border-2 w-full", required: true%>
+    <%= form.label :creator_id, "作成者", class: "text-xl block font-bold mb-2" %>
+    <%= form.select :creator_id, @users.map { |u| [u.name, u.id] }, {}, class: "border-2 w-full", required: true%>
   </div>
 
   <div class="field my-4">

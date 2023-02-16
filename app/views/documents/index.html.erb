@@ -10,7 +10,7 @@
       <p class="text-xl"><%= document.content %></p>
       <p>開始日: <%= document.start_at&.strftime('%Y/%m/%d') %></p>
       <p>場所: <%= document.location %></p>
-      <p>作成者: <%= link_to_if document.assigner&.name, document.assigner&.name, document.assigner %></p>
+      <p>作成者: <%= link_to_if document.creator&.name, document.creator&.name, document.creator %></p>
     </div>
     <div class="flex-1"></div>
     <% if logged_in? %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_10_06_041706) do
+ActiveRecord::Schema.define(version: 2023_02_15_020927) do
 
   create_table "action_items", force: :cascade do |t|
     t.integer "uid"
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 2022_10_06_041706) do
     t.integer "creator_id"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.integer "assigner_id"
     t.text "description"
     t.integer "project_id"
     t.text "location"
@@ -114,7 +113,6 @@ ActiveRecord::Schema.define(version: 2022_10_06_041706) do
   add_foreign_key "document_tags", "tags"
   add_foreign_key "documents", "projects"
   add_foreign_key "documents", "projects", on_delete: :cascade
-  add_foreign_key "documents", "users", column: "assigner_id", on_delete: :cascade
   add_foreign_key "documents", "users", column: "creator_id", on_delete: :cascade
   add_foreign_key "projects", "users"
   add_foreign_key "projects", "users", on_delete: :cascade
