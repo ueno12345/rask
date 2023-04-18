@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_02_15_020927) do
+ActiveRecord::Schema.define(version: 2023_04_18_070335) do
 
   create_table "action_items", force: :cascade do |t|
     t.integer "uid"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 2023_02_15_020927) do
     t.integer "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "tasks"
     t.index ["user_id"], name: "index_projects_on_user_id"
   end
 

@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
+  add_flash_types :success, :warning, :danger
 
   # session と params の authenticity_token が一致しない場合，セッションを空にする
   protect_from_forgery with: :null_session

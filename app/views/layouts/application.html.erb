@@ -23,7 +23,7 @@
   <body>
     <%= render 'layouts/header' %>
     <% flash.each do |message_type, message| %>
-      <% message_color = {:notice => "blue",:success => "blue",:danger => "yellow"} %>
+      <% message_color = {:notice => "blue", :success => "blue", :danger => "yellow", :alert => "red"} %>
       <p class="m-3 p-3 bg-<%= message_color[message_type.to_sym] %>-400 text-white rounded">
         <%= message %>
       </p>
