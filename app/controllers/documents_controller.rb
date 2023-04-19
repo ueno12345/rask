@@ -15,7 +15,7 @@ class DocumentsController < ApplicationController
   # GET /documents/new
   def new
     @document = Document.new
-    @users = User.all
+    @users = User.where(active: true)
     @projects = Project.all
     @tags = Tag.all
 
@@ -27,7 +27,7 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1/edit
   def edit
-    @users = User.all
+    @users = User.where(active: true)
     @projects = Project.all
     @tags = Tag.all
   end

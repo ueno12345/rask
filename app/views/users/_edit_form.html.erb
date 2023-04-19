@@ -21,6 +21,11 @@
     <%= form.text_field :screen_name, class: "border-2 w-full p-1" %>
   </div>
 
+  <div class="py-2">
+    <%= form.label :active, "アクティブ", class: "text-xl block font-bold mb-2" %>
+    <%= form.check_box :active %>
+  </div>
+
   <div class="actions">
     <%= form.submit "保存", class: "bg-red-400 p-2 text-white rounded w-full" %>
   </div>
