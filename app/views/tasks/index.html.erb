@@ -16,12 +16,15 @@
         <% end %>
         <%= link_to task.content, task %>
       </p>
-      <p></p>
-      <p>        <% if task.project %>
-          <%= link_to task.project.name, task.project %>
-        <% end %>
-        <%= link_to task.assigner.name, task.assigner %>
-        <%= task.show_days_ago.round.to_s + "日前" %>
+      <p>
+      <% if task.project %>
+        <%= link_to task.project.name, task.project %>
+      <% end %>
+      <%= link_to task.assigner.name, task.assigner %>
+      <%= task.show_days_ago.round.to_s + "日前" %>
+      <% task.tags.each do |tag| %>
+        <%= link_to tag_label(tag), tag %>
+      <% end %>
       </p>
     </div>
     <div class="flex-1">
