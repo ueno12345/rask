@@ -15,7 +15,7 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
-    @users = User.all
+    @users = User.where(active: true)
     @assigner_id = params[:assigner_id]
     @projects = Project.all
     @tags = Tag.all
@@ -31,7 +31,7 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
-    @users = User.all
+    @users = User.where(active: true)
     @projects = Project.all
     @tags = Tag.all
     @task_states = TaskState.all

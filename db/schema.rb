@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_18_070335) do
+ActiveRecord::Schema.define(version: 2023_04_18_101055) do
 
   create_table "action_items", force: :cascade do |t|
     t.integer "uid"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 2023_04_18_070335) do
     t.string "provider"
     t.string "uid"
     t.string "avatar_url"
+    t.boolean "active", default: true
     t.index ["screen_name"], name: "index_users_on_screen_name", unique: true
   end
 
