@@ -15,7 +15,11 @@
       <% if logged_in? %>
         <%= link_to '詳細', project %>
         <%= link_to '編集', edit_project_path(project) %>
-        <%= link_to '削除', project, method: :delete, data: { confirm: 'このプロジェクトを削除しますか？' } %>
+        <% if project.tasks.count != 0 %>
+          <p class="text-gray-300">削除</p>
+        <% else %>
+          <%= link_to '削除', project, method: :delete, data: { confirm: 'このプロジェクトを削除しますか？' } %>
+        <% end %>
       <% end %>
     </div>
     <div>

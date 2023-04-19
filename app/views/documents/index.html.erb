@@ -11,6 +11,11 @@
       <p>開始日: <%= document.start_at&.strftime('%Y/%m/%d') %></p>
       <p>場所: <%= document.location %></p>
       <p>作成者: <%= link_to_if document.creator&.name, document.creator&.name, document.creator %></p>
+      <p style="margin-top: 0.5em">
+      <% document.tags.each do |tag| %>
+        <%= link_to tag_label(tag), tag %>
+      <% end %>
+      </P>
     </div>
     <div class="flex-1"></div>
     <% if logged_in? %>
