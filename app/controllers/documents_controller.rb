@@ -2,10 +2,20 @@
 class DocumentsController < ApplicationController
   before_action :set_document, only: %i[ show edit update destroy ]
   before_action :logged_in_user, only: %i[ new create edit update destroy]
+  before_action :search, only: %i[ index ]
   protect_from_forgery :except => [:api_markdown]
+
+  def search
+    if params[:q]
+      key_words = params[:q][:content_or_creator_screen_name_or_description_or_project_name_or_location_cont].split(/[\p{blank}\s]+/)
+      grouping_hash = key_words.reduce({}){|hash, word| hash.merge(word => { content_or_creator_screen_name_or_description_or_project_name_or_location_cont: word })}
+    end
+    @q = Document.ransack({ combinator: 'and', groupings: grouping_hash })
+  end
+
   # GET /documents or /documents.json
   def index
-    @documents = Document.page(params[:page]).per(50).includes(:user).order(start_at: "DESC")
+    @documents = @q.result.page(params[:page]).per(50).includes(:user).order(start_at: "DESC")
   end
 
   # GET /documents/1 or /documents/1.json

@@ -2,10 +2,19 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
   before_action :logged_in_user, only: %i[ new create edit update destroy]
+  before_action :search, only: %i[ index ]
+
+  def search
+    if params[:q]
+      key_words = params[:q][:content_or_assigner_screen_name_or_description_or_project_name_cont].split(/[\p{blank}\s]+/)
+      grouping_hash = key_words.reduce({}){|hash, word| hash.merge(word => { content_or_assigner_screen_name_or_description_or_project_name_cont: word })}
+    end
+    @q = Task.ransack({ combinator: 'and', groupings: grouping_hash })
+  end
 
   # GET /tasks or /tasks.json
   def index
-    @tasks = Task.page(params[:page]).per(50).includes(:user, :state)
+    @tasks = @q.result.page(params[:page]).per(50).includes(:user, :state)
   end
 
   # GET /tasks/1 or /tasks/1.json
