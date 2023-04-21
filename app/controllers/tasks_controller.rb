@@ -1,6 +1,7 @@
 # coding: utf-8
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
+  before_action :get_form_data, only: %i[ new edit ]
   before_action :logged_in_user, only: %i[ new create edit update destroy]
 
   # GET /tasks or /tasks.json
@@ -15,12 +16,8 @@ class TasksController < ApplicationController
   # GET /tasks/new
   def new
     @task = Task.new
-    @users = User.where(active: true)
-    @assigner_id = params[:assigner_id]
-    @projects = Project.all
-    @tags = Tag.all
-    @task_title = params[:selected_str]
-    @task_states = TaskState.all
+    @task.assigner_id = params[:assigner_id]
+    @task.content = params[:selected_str]
     @task.description = params[:desc_header]
 
     project_id = params[:project_id]
@@ -31,10 +28,6 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
-    @users = User.where(active: true)
-    @projects = Project.all
-    @tags = Tag.all
-    @task_states = TaskState.all
   end
 
   # POST /tasks or /tasks.json
@@ -79,6 +72,13 @@ class TasksController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_task
     @task = Task.find(params[:id])
+  end
+
+  def get_form_data
+    @users = User.where(active: true)
+    @projects = Project.all
+    @tags = Tag.all
+    @task_states = TaskState.all
   end
 
   # Only allow a list of trusted parameters through.
