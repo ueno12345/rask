@@ -46,6 +46,14 @@ function main() {
         exit 1
     fi
 
+    if ! [ -e db/development.sqlite3 ]; then
+        echo
+        echo "Information:"
+        echo "    Not found: db/development.sqlite3"
+        echo "    create empty db/development.sqlite3"
+        touch db/development.sqlite3
+    fi
+
     if ! [ -e db/production.sqlite3 ]; then
         echo
         echo "Information:"
@@ -54,33 +62,25 @@ function main() {
         touch db/production.sqlite3
     fi
 
-    if (! [ -e config/master.key ]) && [ -e config/credentials.yml.enc ]; then
-            echo ""
+    if ! [ -e config/master.key ]; then
+            echo
             echo "Error:"
-            echo "    'config/credentials.yml.enc' exists, but 'config/master.key' does not exist."
+            echo "    'config/master.key' not found."
             echo "Help:"
-            echo "    Bring master.key for current credentials.yml.enc or"
-            echo "    Delete credentials.yml.enc to create new pair"
+            echo "    Bring master.key for current credentials.yml.enc"
+            echo "    If you miss 'master.key', you can reset it by executing 'scripts/reset_master_key.sh'"
             exit 1
     fi
-
-    if [ -e config/master.key ] && [ -e config/credentials.yml.enc ]; then
-        ARGS="--skip-credentials"
-    else
-        ARGS=""
-    fi
-
-    for i in $(seq 3000 10000); do
-        if [ $(ss -antu | grep -c ":$i ") = 0 ]; then
-            PORT=$i
-            break
-        fi
-    done
 
     echo
     echo "Creating Rask image"
     UID_SH=$(id -u $1)
-    if ! docker build -t rask -f scripts/docker/Dockerfile_production --build-arg UID=$UID_SH .; then
+    if ! docker buildx build \
+        -t rask \
+        -f scripts/docker/Dockerfile_production \
+        --secret id=master-key,src=$PWD/config/master.key \
+        --build-arg UID=$UID_SH .
+        then
         echo
         echo "Error:"
         echo "    Failed to build docker image"
@@ -89,7 +89,13 @@ function main() {
 
     echo
     echo "Setting up in container"
-    if ! scripts/rask-docker.sh start -p $PORT scripts/docker/docker-setup.sh $ARGS; then
+    if ! docker run \
+        -v $PWD/config:/home/rask/config \
+        -v $PWD/db/production.sqlite3:/home/rask/db/production.sqlite3 \
+        -v $PWD/db/development.sqlite3:/home/rask/db/development.sqlite3 \
+        -it --rm --name rask-setup \
+        rask scripts/docker/docker-setup.sh
+        then
         echo
         echo "Error:"
         echo "    Failed to setup docker container"
