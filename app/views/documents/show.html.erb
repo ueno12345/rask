@@ -21,19 +21,19 @@
   <div class="markdown-body">
     <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
     <% desc.each_line do |line| %>
-      <% matched = line.match(/\(([^ ]+) !:([0-9]+)\)/) %>
+      <% matched = line.match(/--(>|&gt;)\(([^ ]+) !:([0-9]+)\)/) %>
       <% if matched != nil %>
         <%== $` %>
-        <% task_url = ActionItem.find_by(uid:matched[2].to_i).task_url %>
-        <% assigner = User.find_by(screen_name:matched[1].to_s) %>
+        <% task_url = ActionItem.find_by(uid:matched[3].to_i).task_url %>
+        <% assigner = User.find_by(screen_name:matched[2].to_s) %>
         <% if task_url != nil %>
           <%= link_to matched[0], task_url.to_s %>
         <% else %>
-          <% message = "Created from [AI#{matched[2]}](#{request.url})" %>
+          <% message = "Created from [AI#{matched[3]}](#{request.url})" %>
           <% if assigner != nil %>
             <% assigner_id =  assigner.id %>
           <% end %>
-          <%= link_to matched[0], new_task_path(assigner_id: assigner_id, project_id: @document.project_id, desc_header: message) %>
+          <%= link_to matched[0].html_safe, new_task_path(assigner_id: assigner_id, project_id: @document.project_id, desc_header: message) %>
         <% end %>
         <%== $' %>
       <% else %>
