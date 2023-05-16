@@ -17,7 +17,11 @@
     <% end %>
   </p>
   <br>
-  <p class="text-xl block font-bold mb-2">文書内容</p>
+  <p class="text-xl block font-bold mb-2">文書内容
+  <%= link_to document_path(@document, "txt"), title: "Download txt", download: @document.content + ".txt" do %>
+    <i class="fa fa-download"></i> 
+  <% end %>
+  </p>
   <div class="markdown-body">
     <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
     <% desc.each_line do |line| %>
