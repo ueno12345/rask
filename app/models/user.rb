@@ -28,7 +28,7 @@ class User < ApplicationRecord
             user.uid      = auth["uid"]
 
             info = auth["info"]
-            user.name        = info["name"]
+            user.name        = info["name"] || info["nickname"]
             user.screen_name = info["nickname"]
             user.avatar_url  = info["image"]
         end
