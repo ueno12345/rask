@@ -3,7 +3,6 @@
 getSelectionRange = function() {
   var range, sel;
   sel = window.getSelection();
-  console.log("sel:" + sel);
   if (!sel.isCollapsed && (range = sel.getRangeAt(0))) {
     return {
       fst: range.startContainer.parentNode,
@@ -17,7 +16,6 @@ getSelectionRange = function() {
 getSelectionLineRange = function() {
   var fst, lst, range;
   if (!(range = getSelectionRange())) {
-    console.log("gyaa");
     return void 0;
   }
   fst = Number(findNearestLinenum($(range.fst), -1));
@@ -98,7 +96,6 @@ getCurrentPageAsJSON = function() {
     dataType: 'json'
   });
   json = res.responseJSON;
-  console.log("json:" + json);
   return json;
 };
 
@@ -109,7 +106,6 @@ removeHeader = function(string) {
 
 // Remove trailing ``-->(...)'' from STRING.
 removeTrailer = function(string) {
-  console.log("string:" + string)
   return string.replace(/(．)? *--(>|&gt;)\(.*\) */, '');
 };
 
@@ -181,17 +177,19 @@ extractLines = function(lines, fst, lst) {
 };
 
 ready = function() {
-  $('div.jay_document a').on('click', function(event) {
+  $('div.markdown-body a').on('click', function(event) {
     var ai_num, description, form, minute, range, title, url;
     event.preventDefault();
+    const new_task_url = event.target;
     if (range = getSelectionLineRange()) {
       minute = getCurrentPageAsJSON();
       description = chopIndent(extractLines(minute.description, range.fst, range.lst));
       title = removeHeader(removeTrailer(description.trim().split("\n").slice(-1)[0]));
       ai_num = $(this).attr("data-action-item");
       url = (this.href.split('?')[0]) + "?ai=" + ai_num;
-      const new_task_url = event.target;
       window.location.href = new_task_url + "&selected_str=" + title;
+    } else {
+      window.location.href = new_task_url;
     }
   });
 };
