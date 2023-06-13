@@ -20,6 +20,11 @@ class DocumentsController < ApplicationController
 
   # GET /documents/1 or /documents/1.json
   def show
+    respond_to do |format|
+      format.html {}
+      format.json {}
+      format.text {render plain: JayFlavoredMarkdownToPlainTextConverter.new(@document.description).content}
+    end
   end
 
   # GET /documents/new
@@ -79,7 +84,7 @@ class DocumentsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -98,4 +103,5 @@ class DocumentsController < ApplicationController
       tag ? tag : Tag.create(name: tag_name)
     end
   end
+
 end
