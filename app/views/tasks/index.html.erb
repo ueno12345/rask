@@ -1,6 +1,18 @@
 <div class="flex">
   <%= render 'layouts/h1', title: "タスク一覧" %>
-  <div class="flex-1"></div>
+  <div class="flex-1">
+  </div>
+  <div class="p-3 my-3 border rounded flex space-x-4">
+    <thead>
+      <tr>
+        <th>ソート：</th>
+        <th><%= sort_link(@q, :updated_at, "更新順") %></th>
+        <th><%= sort_link(@q, :created_at, "作成順") %></th>
+        <th><%= sort_link(@q, :due_at, "期限順") %></th>
+        <th><%= sort_link(@q, :project_id, "プロジェクト名順") %></th>
+      </tr>
+    </thead>
+  </div>
   <div class="p-3 my-3 border rounded flex space-x-4">
   <!--検索フォーム-->
   <%= search_form_for @q do |f| %>

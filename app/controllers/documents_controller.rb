@@ -2,20 +2,36 @@
 class DocumentsController < ApplicationController
   before_action :set_document, only: %i[ show edit update destroy ]
   before_action :logged_in_user, only: %i[ new create edit update destroy]
-  before_action :search, only: %i[ index ]
   protect_from_forgery :except => [:api_markdown]
 
-  def search
-    if params[:q]
-      key_words = params[:q][:content_or_creator_screen_name_or_description_or_project_name_or_location_cont].split(/[\p{blank}\s]+/)
-      grouping_hash = key_words.reduce({}){|hash, word| hash.merge(word => { content_or_creator_screen_name_or_description_or_project_name_or_location_cont: word })}
+  def search_check(param)
+    if param.present?
+      key_words = param.split(/[\p{blank}\s]+/)
+      grouping_hash = key_words.reduce({}) {|hash, word| hash.merge(word => {content_or_creator_screen_name_or_description_or_project_name_or_location_cont: word})}
+    else
+      nil
     end
-    @q = Document.ransack({ combinator: 'and', groupings: grouping_hash })
+  end
+
+  def sort_check(param)
+    if param.present?
+      sort_column = []
+      sort_column << param
+    else
+      "start_at DESC"
+    end
   end
 
   # GET /documents or /documents.json
   def index
-    @documents = @q.result.page(params[:page]).per(50).includes(:user).order(start_at: "DESC")
+    if params[:q].nil?
+      @q = Document.ransack(params[:q])
+      @q.sorts = "start_at DESC"
+    else
+      @q = Document.ransack({combinator: 'and', groupings: search_check(params[:q][:content_or_creator_screen_name_or_description_or_project_name_or_location_cont])})
+      @q.sorts = sort_check(params[:q][:s])
+    end  
+    @documents = @q.result.page(params[:page]).per(50).includes(:user)
   end
 
   # GET /documents/1 or /documents/1.json
