@@ -50,6 +50,7 @@ Options:
                         This option overrides -a option
     -p number  port: bind 'number' port (default $PORT)
     -i name    image: use 'name' image (default $DEFAULT_IMAGE_NAME)
+    -e env     env: RAILS_ENV to run server (eg. prodcution, development) (default $DEFAULT_ENVIRONMENT)
     -h         help: show this usage
 _EOT_
 }
