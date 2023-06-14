@@ -2,7 +2,6 @@ require 'securerandom'
 
 class ApiTokensController < ApplicationController
   before_action :set_api_token, only: %i[ show edit update destroy ]
-  before_action :logged_in_user, only: %i[ show new create edit update destroy]
 
   # GET /api_tokens or /api_tokens.json
   def index
