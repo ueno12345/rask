@@ -15,11 +15,10 @@
   <div class="p-3 my-3 border rounded flex space-x-4">
     <div>
       <p class="text-xl">
-        <% if task.state.name=="todo" %>
-          <i class="far fa-dot-circle"></i>
-        <% end %>
-        <% if task.state.name=="done" %>
-          <i class="far fa-check-circle"></i>
+        <% if task.completed? %>
+          <i class="far fa-check-circle" style="color: <%= task.state.color %>;"></i>
+        <% else %>
+          <i class="far fa-dot-circle" style="color: <%= task.state.color %>;"></i>
         <% end %>
         <%= link_to task.content, task %>
       </p>
