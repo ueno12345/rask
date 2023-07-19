@@ -61,7 +61,7 @@ class ProjectsController < ApplicationController
     rescue ActiveRecord::DeleteRestrictionError => e
       respond_to do |format|
         format.html { redirect_to projects_url, alert: @project.name + "に紐づいているタスクがあるため削除できません．"}
-        format.json { render json: @project.errors, status: :forbidden }
+        format.json { render json: @project.errors, status: :precondition_failed }
       end
     end
   end
