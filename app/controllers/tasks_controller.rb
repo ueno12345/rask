@@ -3,18 +3,34 @@ class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
   before_action :get_form_data, only: %i[ new edit ]
   before_action :logged_in_user, only: %i[ new create edit update destroy]
-  before_action :search, only: %i[ index ]
 
-  def search
-    if params[:q]
-      key_words = params[:q][:content_or_assigner_screen_name_or_description_or_project_name_cont].split(/[\p{blank}\s]+/)
-      grouping_hash = key_words.reduce({}){|hash, word| hash.merge(word => { content_or_assigner_screen_name_or_description_or_project_name_cont: word })}
+  def search_check(param)
+    if param.present?
+      key_words = param.split(/[\p{blank}\s]+/)
+      grouping_hash = key_words.reduce({}) { |hash, word| hash.merge(word => { content_or_assigner_screen_name_or_description_or_project_name_cont: word }) }
+    else
+      nil
     end
-    @q = Task.ransack({ combinator: 'and', groupings: grouping_hash })
+  end
+
+  def sort_check(param)
+    if param.present?
+      sort_column = []
+      sort_column << "task_state_id ASC" << param
+    else
+      "task_state_id ASC"
+    end
   end
 
   # GET /tasks or /tasks.json
   def index
+    if params[:q].nil?
+      @q = Task.ransack(params[:q])
+      @q.sorts = "task_state_id ASC"
+    else
+      @q = Task.ransack({combinator: 'and', groupings: search_check(params[:q][:content_or_assigner_screen_name_or_description_or_project_name_cont])})
+      @q.sorts = sort_check(params[:q][:s])
+    end  
     @tasks = @q.result.page(params[:page]).per(50).includes(:user, :state)
   end
 
