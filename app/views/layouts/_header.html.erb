@@ -13,7 +13,7 @@
   </div>
   <ul class="flex gap-4">
     <% if logged_in? %>
-      <li><%= link_to "ログアウト", logout_path, method: :delete, data: { confirm: 'ログアウトしますか？' } %></li>
+      <li><%= link_to "ログアウト (#{current_user.screen_name})", logout_path, method: :delete, data: { confirm: 'ログアウトしますか？' } %></li>
     <% else %>
       <li><%= link_to "ログイン", '/auth/github', method: :post %></li>
     <% end %>
