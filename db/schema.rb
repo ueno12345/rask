@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2023_04_18_101055) do
+ActiveRecord::Schema.define(version: 2023_08_24_085144) do
 
   create_table "action_items", force: :cascade do |t|
     t.integer "uid"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2023_04_18_101055) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "document_tags", id: false, force: :cascade do |t|
+  create_table "document_tags", force: :cascade do |t|
     t.integer "document_id", null: false
     t.integer "tag_id", null: false
     t.index ["document_id"], name: "index_document_tags_on_document_id"
