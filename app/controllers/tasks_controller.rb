@@ -30,7 +30,7 @@ class TasksController < ApplicationController
     else
       @q = Task.ransack({combinator: 'and', groupings: search_check(params[:q][:content_or_assigner_screen_name_or_description_or_project_name_cont])})
       @q.sorts = sort_check(params[:q][:s])
-    end  
+    end
     @tasks = @q.result.page(params[:page]).per(50).includes(:user, :state)
   end
 

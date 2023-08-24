@@ -178,7 +178,7 @@ extractLines = function(lines, fst, lst) {
 
 ready = function() {
   $('div.markdown-body a').on('click', function(event) {
-    var ai_num, description, form, minute, range, title, url;
+    var ai_num, description, form, minute, range, title, url, params, desc_header;
     event.preventDefault();
     const new_task_url = event.target;
     if (range = getSelectionLineRange()) {
@@ -187,6 +187,10 @@ ready = function() {
       title = removeHeader(removeTrailer(description.trim().split("\n").slice(-1)[0]));
       ai_num = $(this).attr("data-action-item");
       url = (this.href.split('?')[0]) + "?ai=" + ai_num;
+      params = new URLSearchParams(new_task_url.search);
+      desc_header = params.get("desc_header") + "\n" + title;
+      params.set('desc_header', desc_header);
+      new_task_url.search = params.toString();
       window.location.href = new_task_url + "&selected_str=" + title;
     } else {
       window.location.href = new_task_url;
