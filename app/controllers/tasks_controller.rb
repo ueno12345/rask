@@ -2,7 +2,6 @@
 class TasksController < ApplicationController
   before_action :set_task, only: %i[ show edit update destroy ]
   before_action :get_form_data, only: %i[ new edit ]
-  before_action :logged_in_user, only: %i[ new create edit update destroy]
 
   def search_check(param)
     if param.present?

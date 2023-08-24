@@ -9,23 +9,34 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
     OmniAuth.config.test_mode = true
   end
 
-  test "should get index" do
+  test "should redirect to get inde without login" do
+    get tags_url
+    assert_redirected_to root_path
+  end
+
+  test "should get index with login" do
+    log_in_as(@user)
     get tags_url
     assert_response :success
   end
 
-  test "should get new" do
+  test "should redirect to get new tag page without login" do
+    get new_tag_url
+    assert_redirected_to root_path
+  end
+
+  test "should get new tag page with login" do
     log_in_as(@user)
     get new_tag_url
     assert_response :success
   end
 
-  test "should redirect new to login" do
+  test "should redirect to create new task" do
     get new_task_url
-    assert_redirected_to projects_url
+    assert_redirected_to root_path
   end
 
-  test "should create tag" do
+  test "should get create-tag-page" do
     log_in_as(@user)
     assert_difference('Tag.count') do
       post tags_url, params: { tag: { name: "Test Tag" } }

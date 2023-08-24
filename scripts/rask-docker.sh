@@ -9,6 +9,7 @@ DEFAULT_PORT=3000 # host port which container binds
 DEFAULT_COMMAND="" # command which execute in container
                    # using default entrypoint of image, specify ""
 DEFAULT_IMAGE_NAME=rask
+DEFAULT_ENVIRONMENT=production
 # constant value
 SCRIPT_NAME=rask-docker.sh
 
@@ -49,6 +50,7 @@ Options:
                         This option overrides -a option
     -p number  port: bind 'number' port (default $PORT)
     -i name    image: use 'name' image (default $DEFAULT_IMAGE_NAME)
+    -e env     env: RAILS_ENV to run server (eg. prodcution, development) (default $DEFAULT_ENVIRONMENT)
     -h         help: show this usage
 _EOT_
 }
@@ -83,7 +85,7 @@ function main(){
         exit 1
     fi
 
-    cd "$(dirname "$0")"
+    cd "$(dirname "$0")" || exit 1
     cd ..
 
     subcommand=$1
@@ -91,16 +93,16 @@ function main(){
 
     case $subcommand in
         start)
-            start $@
+            start "$@"
             ;;
         stop)
-            stop $@
+            stop "$@"
             ;;
         status)
             status
             ;;
         restart)
-            restart $@
+            restart "$@"
             ;;
         help)
             print_usage
@@ -121,7 +123,8 @@ function start(){
     COMMAND=$DEFAULT_COMMAND
     ATTACH_OPTION=$DEFAULT_ATTACH_OPTION
     IMAGE_NAME=$DEFAULT_IMAGE_NAME
-    set_start_options $@
+    ENVIRONMENT=$DEFAULT_ENVIRONMENT
+    set_start_options "$@"
     CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${PORT}"
 
     if container_is_running $CONTAINER_NAME; then
@@ -146,18 +149,18 @@ function start(){
 
     echo "starting $CONTAINER_NAME"
 
-    if container_is_stopped $CONTAINER_NAME; then    
+    if container_is_stopped $CONTAINER_NAME; then
         docker start $CONTAINER_NAME > /dev/null
     else
         docker run \
             -$ATTACH_OPTION \
             -p $PORT:3000 \
             -v $PWD/log:/home/rask/log \
-            -v $PWD/storage:/home/rask/storage \
-            -v $PWD/public:/home/rask/public \
             -v $PWD/config:/home/rask/config \
             -v $PWD/db/production.sqlite3:/home/rask/db/production.sqlite3 \
+            -v $PWD/db/development.sqlite3:/home/rask/db/development.sqlite3 \
             -v $PWD/.env:/home/rask/.env \
+            -e RAILS_ENV=$ENVIRONMENT \
             --rm \
             --name $CONTAINER_NAME \
             $IMAGE_NAME $COMMAND
@@ -165,7 +168,7 @@ function start(){
 }
 
 function set_start_options(){
-    while getopts dhap:i: OPT; do
+    while getopts dhap:i:e: OPT; do
         case $OPT in
             a)
                 ATTACH_OPTION=it
@@ -183,6 +186,9 @@ function set_start_options(){
             i)
                 IMAGE_NAME=$OPTARG
                 ;;
+            e)
+                ENVIRONMENT=$OPTARG
+                ;;
             *)
                 echo "Invalid option: $OPT"
                 exit 1
@@ -193,7 +199,7 @@ function set_start_options(){
 }
 
 function stop(){
-    set_stop_options $@
+    set_stop_options "$@"
     if [ $# -eq 0 ]; then
         if only_default_running; then
             CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT}"
@@ -241,7 +247,7 @@ function status(){
 }
 
 function restart(){
-    set_restart_options $@
+    set_restart_options "$@"
     if [ $# -eq 0 ]; then
         if only_default_running; then
             CONTAINER_NAME="${DEFAULT_IMAGE_NAME}-${DEFAULT_PORT}"

@@ -8,8 +8,10 @@ main() {
     cd ../
 
     # run rails server
-    export RAILS_SERVE_STATIC_FILES=true
-    bundle exec rails s -b 0.0.0.0 -p 3000 -e "production" &
+    if [ "$RAILS_ENV" = "production" ]; then
+        export RAILS_SERVE_STATIC_FILES=true
+    fi
+    bundle exec rails s -b 0.0.0.0 -p 3000 -e "$RAILS_ENV" &
 
     # get pid of rails server
     pid=$!

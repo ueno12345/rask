@@ -1,7 +1,6 @@
 # coding: utf-8
 class TagsController < ApplicationController
   before_action :set_tag, only: %i[ show edit update destroy ]
-  before_action :logged_in_user, only: %i[ new create edit update destroy ]
 
   # GET /tags or /tags.json
   def index

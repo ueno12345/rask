@@ -49,6 +49,8 @@ RUN bundle config set path 'vendor/bundle'
 RUN bundle install
 RUN bundle exec rails webpacker:install
 RUN bundle exec rails tailwindcss:install
+RUN --mount=type=secret,id=master-key,target=/home/rask/config/master.key,mode=444 \
+   bundle exec rails assets:precompile RAILS_ENV=production
 
 # set cmd
 CMD ["./scripts/docker/docker-entrypoint.sh"]

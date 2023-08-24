@@ -1,7 +1,6 @@
 # coding: utf-8
 class DocumentsController < ApplicationController
   before_action :set_document, only: %i[ show edit update destroy ]
-  before_action :logged_in_user, only: %i[ new create edit update destroy]
   protect_from_forgery :except => [:api_markdown]
 
   def search_check(param)
