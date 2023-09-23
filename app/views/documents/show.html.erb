@@ -33,7 +33,7 @@
         <% if task_url != nil %>
           <%= link_to "(#{matched[2]} #{task_url})", task_url.to_s %>
         <% else %>
-          <% message = "Created from [AI#{matched[3]}](#{request.url})" %>
+          <% message = "Created from [AI#{matched[3]}](#{request.url.split('?').first}?ai=#{matched[3]})" %>
           <% if assigner != nil %>
             <% assigner_id =  assigner.id %>
           <% end %>
