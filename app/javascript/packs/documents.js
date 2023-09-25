@@ -1,3 +1,18 @@
+//
+// Get URL params as Object
+//
+getUrlParams = function() {
+  var i, key, len, param, params, ref, ref1, val;
+  params = {};
+  ref = window.location.search.substr(1).split('&');
+  for (i = 0, len = ref.length; i < len; i++) {
+    param = ref[i];
+    ref1 = param.split('='), key = ref1[0], val = ref1[1];
+    params[key] = decodeURIComponent(val);
+  }
+  return params;
+};
+
 // Get current region selected by mouse.
 // returns {fst: FIRST_ELEMENT, lst: LAST_ELEMENT}
 getSelectionRange = function() {
@@ -177,6 +192,10 @@ extractLines = function(lines, fst, lst) {
 };
 
 ready = function() {
+  var ai;
+  if (ai = getUrlParams().ai) {
+    markAndScrollToActionItem(ai);
+  }
   $('div.markdown-body a').on('click', function(event) {
     var ai_num, description, form, minute, range, title, url, params, desc_header;
     event.preventDefault();
