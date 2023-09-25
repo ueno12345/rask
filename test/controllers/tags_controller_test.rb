@@ -11,7 +11,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to get inde without login" do
     get tags_url
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should get index with login" do
@@ -22,7 +22,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to get new tag page without login" do
     get new_tag_url
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should get new tag page with login" do
@@ -33,7 +33,7 @@ class TagsControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to create new task" do
     get new_task_url
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should get create-tag-page" do

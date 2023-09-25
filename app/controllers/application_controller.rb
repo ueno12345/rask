@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
       respond_to do |format|
         format.html {
           flash[:danger] = "この操作にはログインが必要です"
-          redirect_to root_path
+          redirect_to welcome_path
         }
         format.json {
           render status: 401, json: { status: 401, message: 'Unauthorized' }

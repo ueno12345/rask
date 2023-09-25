@@ -14,7 +14,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect to get index without login" do
     get users_url
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should show user" do
@@ -31,7 +31,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect edit to login" do
     get edit_user_url(@user)
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should update user" do
@@ -42,7 +42,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect update to login" do
     patch user_url(@user), params: { user: { name: @user.name } }
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 
   test "should destroy user" do
@@ -56,6 +56,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should redirect destroy to login" do
     delete user_url(@user)
-    assert_redirected_to root_path
+    assert_redirected_to welcome_path
   end
 end

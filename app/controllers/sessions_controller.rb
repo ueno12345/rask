@@ -14,7 +14,7 @@ class SessionsController < ApplicationController
 
     user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.create_with_omniauth(auth)
     log_in user
-    redirect_to projects_url
+    redirect_to root_path
   end
 
   def login_with_passwd_auth
@@ -25,13 +25,13 @@ class SessionsController < ApplicationController
       redirect_to users_path
     else
       flash[:danger] = 'nameかpasswordが間違っています'
-      redirect_to projects_url
+      redirect_to root_path
     end
   end
 
   def destroy
     log_out
-    redirect_to projects_url
+    redirect_to root_path
   end
 
 end
