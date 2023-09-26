@@ -7,6 +7,8 @@ class ApplicationController < ActionController::Base
 
   before_action :logged_in_user
 
+  layout 'application'
+
   private
 
   # ユーザーのログインを確認する
