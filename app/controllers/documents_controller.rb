@@ -48,6 +48,9 @@ class DocumentsController < ApplicationController
     @users = User.where(active: true)
     @projects = Project.all
     @tags = Tag.all
+    # TODO: バージョン7.1以降では datetime_field に include_seconds オプションが導入されるため，以下の秒を0にする記述は不要になる
+    @document.start_at = DateTime.current.change(sec: 0)
+    @document.end_at = DateTime.current.change(sec: 0)
 
     project_id = params[:project_id]
     unless project_id.nil?
