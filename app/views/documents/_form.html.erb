@@ -117,6 +117,12 @@ const headers = {
 fetch("/documents/api_markdown", {method, headers, body}).then((res)=> res.json()).then((obj) => {preview.innerHTML=obj.text}).catch(console.error);
 <%# fetch("/documents/api_markdown", {method, headers, body}).then((res)=> {console.log(res.json())}).catch(console.error); %>
   }
+
+  document.getElementById('document_end_at').onfocus = function() {
+    date = document.getElementById('document_start_at').value.split("T")[0];
+    time = document.getElementById('document_end_at').value.split("T")[1];
+    document.getElementById('document_end_at').value = date + 'T' + time;
+  }
   </script>
 
 <% end %>

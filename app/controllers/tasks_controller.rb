@@ -44,6 +44,7 @@ class TasksController < ApplicationController
     @task.assigner_id = params[:assigner_id]
     @task.content = params[:selected_str]
     @task.description = params[:desc_header]
+    @task.due_at = Date.current + 14
 
     project_id = params[:project_id]
     unless project_id.nil?
