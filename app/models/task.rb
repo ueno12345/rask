@@ -8,6 +8,8 @@ class Task < ApplicationRecord
   accepts_nested_attributes_for :task_tags, allow_destroy: true
   belongs_to :state, foreign_key: 'task_state_id', class_name: 'TaskState'
 
+  validates :content, presence: true
+
   def show_days_ago
     ((Time.zone.now - self.created_at)/60/60/24)
   end
