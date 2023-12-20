@@ -4,7 +4,7 @@ class User < ApplicationRecord
     # github action uses the provider name "github"
     validate do |record|
       if (record.password_digest.blank? && record.provider != "github") then
-        record.errors.add(attribute, :blank)
+        record.errors.add(:base, "Password is blank and provider is not GitHub")
       end
     end
     validates_length_of :password, maximum: ActiveModel::SecurePassword::MAX_PASSWORD_LENGTH_ALLOWED

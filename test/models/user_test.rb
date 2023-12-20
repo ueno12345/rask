@@ -54,7 +54,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not create local user with empty password_digest" do
-    skip 'Exception'
     user = @user_template.clone
     user[:provider] = "local"
     user[:password_digest] = nil
