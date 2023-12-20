@@ -7,6 +7,10 @@ class Task < ApplicationRecord
   has_many :tags, through: :task_tags
   accepts_nested_attributes_for :task_tags, allow_destroy: true
   belongs_to :state, foreign_key: 'task_state_id', class_name: 'TaskState'
+  
+  scope :desc, -> (limit=nil) {order(updated_at: "DESC").limit(limit)}
+  scope :asc, -> (limit=nil) {order(updated_at: "ASC").limit(limit)}
+  scope :active, -> {joins(:state).where(state: {name: "todo"})}
 
   validates :content, presence: true
 

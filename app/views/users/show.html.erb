@@ -10,6 +10,12 @@
   <%= link_to @user.screen_name %>
 </div>
 
+<div class="my-3">
+  <p class="text-xl block font-bold mb-2">最新タスク</p>
+  <%= render @assigned_tasks %>
+  <%= link_to "タスク一覧へ", tasks_path, method: :get, :class => "text-blue-900" %>
+</div>
+
 <div>
   <p class="text-xl block font-bold mb-2">APIトークン</p>
   <% @api_tokens.each do |api_token| %>
