@@ -3,10 +3,10 @@
 one:
   content: MyText
   user: one
-  assigner_id: one
+  assigner: one
   due_at: 2021-07-16 12:22:22
   description: test
-  project_id : one
+  project : one
   state: todo
 
 two:
