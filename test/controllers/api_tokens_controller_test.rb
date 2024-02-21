@@ -4,7 +4,7 @@ class ApiTokensControllerTest < ActionDispatch::IntegrationTest
   setup do
     @api_token = api_tokens(:one)
     @user = users(:one)
-    @api_token.user = @user
+    @api_token.update(user: @user)
     OmniAuth.config.test_mode = true
   end
 
@@ -30,7 +30,6 @@ class ApiTokensControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should show api_token" do
-    skip 'Exception'
     log_in_as(@user)
     get api_token_url(@api_token)
     assert_response :success
