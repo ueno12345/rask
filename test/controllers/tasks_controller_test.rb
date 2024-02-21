@@ -14,7 +14,6 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index with login" do
-    skip 'Exception'
     log_in_as(@user)
     get tasks_url
     assert_response :success
@@ -32,10 +31,9 @@ class TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should create task" do
-    skip 'Exception'
     log_in_as(@user)
     assert_difference('Task.count') do
-    post tasks_url, params: { task: { content: @task.content, creator_id: @task.creator_id, assigner_id: @task.assigner_id , due_at: @task.due_at, description: @task.description, project_id: @task.project_id, task_state_id: @task.task_state_id} }
+      post tasks_url, params: { task: { content: @task.content, creator_id: @task.creator_id, assigner_id: @task.assigner_id , due_at: @task.due_at, description: @task.description, project_id: @task.project_id, task_state_id: @task.task_state_id} }
     end
 
     assert_redirected_to tasks_url
