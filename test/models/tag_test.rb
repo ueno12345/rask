@@ -20,9 +20,10 @@ class TagTest < ActiveSupport::TestCase
   end
 
   test "should not delete tag which has task" do
-    skip 'This test cause Exception.'
     tag = tags(:tag_has_task)
-    assert_not tag.destroy
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      tag.destroy
+    end
   end
 
   test "should not delete tag which has document" do
