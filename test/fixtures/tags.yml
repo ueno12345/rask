@@ -12,5 +12,6 @@ tag_has_task:
     # tasks: one # FIXME: This syntax is currently not working for NotNullViolation exception for created_at column
 
 tag_has_document:
+  id: 2
   name: tag_has_document
-  documents: one
+  # documents: one

@@ -16,7 +16,6 @@ class DocumentTest < ActiveSupport::TestCase
   end
 
   test "Should delete document" do
-    p("\n\n\n\ncheck\n\n\n\n")
     document = Document.create(content: 'test', description: 'test')
     assert document.destroy
   end
