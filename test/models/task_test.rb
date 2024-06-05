@@ -19,17 +19,15 @@ class TaskTest < ActiveSupport::TestCase
   end
 
   test "should not create task without creator_id" do
-    skip ''
     task = @task_template.clone
     task[:creator_id] = nil
-    assert Task.new(task).save
+    assert_not Task.new(task).save
   end
 
   test "should not create task without content" do
-    skip ''
     task = @task_template.clone
     task[:content] = nil
-    assert Task.new(task).save
+    assert_not Task.new(task).save
   end
 
   test "should delete task" do
