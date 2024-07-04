@@ -14,8 +14,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "Should not create projects without name" do
-    skip ''
-    assert_not Project.new(user_id: users(:one).id)
+    assert_not Project.new(user_id: users(:one).id).save
   end
 
   test "Should delete projects which does not have task and document" do
