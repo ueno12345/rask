@@ -31,9 +31,11 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "Should not delete projects which has tasks" do
-    skip ''
     project = Project.create(name: 'testdata', user_id: users(:one).id)
-    Task.create(content: 'testtask', project_id: project.id)
-    assert_not project.destroy
+    TaskState.create(name: "test", priority: 0)
+    Task.create(content: 'testtask', creator_id: users(:one).id, assigner_id: users(:one).id, project_id: project.id, task_state_id: TaskState.last.id)
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      project.destroy
+    end
   end
 end
