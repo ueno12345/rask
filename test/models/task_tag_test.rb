@@ -21,19 +21,19 @@ class TaskTagTest < ActiveSupport::TestCase
   end
 
   test "Should delete tag which has no tasks" do
-    skip ''
-    Task.create
-    Tag.create
+    Task.create(content: "test task")
+    Tag.create(name: "test tag")
     TaskTag.create(task_id: Task.last.id, tag_id: Tag.last.id)
-    Task.last.delete
-    assert TaskTag.last.destroy.valid?
+    Task.last.destroy
+    assert Tag.last.destroy
   end
 
   test "Should not delete tag which has tasks" do
-    skip ''
-    Task.create
-    Tag.create
+    Task.create(content: "test task")
+    Tag.create(name: "test tag")
     TaskTag.create(task_id: Task.last.id, tag_id: Tag.last.id)
-    assert TaskTag.last.destroy.invalid?
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      Tag.last.destroy
+    end
   end
 end
