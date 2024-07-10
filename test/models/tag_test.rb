@@ -27,8 +27,9 @@ class TagTest < ActiveSupport::TestCase
   end
 
   test "should not delete tag which has document" do
-    skip ''
     tag = tags(:tag_has_document)
-    assert_not tag.destroy
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      tag.destroy
+    end
   end
 end
