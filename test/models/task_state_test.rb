@@ -7,12 +7,10 @@ class TaskStateTest < ActiveSupport::TestCase
   end
 
   test "should not create task_state without name" do
-    skip ''
     assert_not TaskState.new(priority: 0).valid?
   end
 
   test "should not create task_state without priority" do
-    skip ''
     assert_not TaskState.new(name: "test").valid?
   end
 
