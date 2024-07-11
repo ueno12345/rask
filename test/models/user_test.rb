@@ -78,7 +78,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not create user with_same_uid" do
-    skip ''
     user = @user_template.clone
     User.create(user)
     user[:name] ="other_name"
