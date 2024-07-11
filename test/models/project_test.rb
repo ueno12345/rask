@@ -14,8 +14,7 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "Should not create projects without name" do
-    skip ''
-    assert_not Project.new(user_id: users(:one).id)
+    assert_not Project.new(user_id: users(:one).id).save
   end
 
   test "Should delete projects which does not have task and document" do
@@ -24,16 +23,14 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "Should not delete projects which has documents" do
-    skip 'Exception'
-    project = Project.create(name: 'testdata', user_id: users(:one).id)
-    Document.create(content: 'testdocument', project_id: project.id)
-    assert_not project.destroy
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      projects(:has_document).destroy
+    end
   end
 
   test "Should not delete projects which has tasks" do
-    skip ''
-    project = Project.create(name: 'testdata', user_id: users(:one).id)
-    Task.create(content: 'testtask', project_id: project.id)
-    assert_not project.destroy
+    assert_raises(ActiveRecord::DeleteRestrictionError) do
+      projects(:has_task).destroy
+    end
   end
 end
