@@ -27,3 +27,12 @@ task_has_tag:
   description: test
   project: one
   state: done
+
+belong_to_project:
+  content: MyText
+  user: one
+  assigner: two
+  due_at: 2021-07-16 12:22:22
+  description: test
+  project: has_task
+  state: todo

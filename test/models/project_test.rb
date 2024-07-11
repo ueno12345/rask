@@ -23,19 +23,14 @@ class ProjectTest < ActiveSupport::TestCase
   end
 
   test "Should not delete projects which has documents" do
-    project = Project.create(name: 'testdata', user_id: users(:one).id)
-    Document.create(id: 1, content: 'testdocument', creator_id: users(:one).id, start_at: Time.zone.now, end_at: Time.zone.now, project_id: project.id, location: 106)
     assert_raises(ActiveRecord::DeleteRestrictionError) do
-      project.destroy
+      projects(:has_document).destroy
     end
   end
 
   test "Should not delete projects which has tasks" do
-    project = Project.create(name: 'testdata', user_id: users(:one).id)
-    TaskState.create(name: "test", priority: 0)
-    Task.create(content: 'testtask', creator_id: users(:one).id, assigner_id: users(:one).id, project_id: project.id, task_state_id: TaskState.last.id)
     assert_raises(ActiveRecord::DeleteRestrictionError) do
-      project.destroy
+      projects(:has_task).destroy
     end
   end
 end

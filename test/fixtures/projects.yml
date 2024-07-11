@@ -7,3 +7,11 @@ one:
 two:
   name: MyString
   user: two
+
+has_document:
+  name: MyString
+  user: one
+
+has_task:
+  name: MyString
+  user: one

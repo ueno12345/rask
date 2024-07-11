@@ -1,6 +1,16 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
 document_has_tag:
   id: 2
   content: Document_has_tag
   start_at: 2024-07-01 00:00:00
   end_at: 2024-07-02 00:00:00
+  location: Test location
+
+belong_to_project_id:
+  content: 'belong to project'
+  creator: one
+  start_at: 2024-07-01 00:00:00
+  end_at: 2024-07-02 00:00:00
+  project: has_document
   location: Test location
