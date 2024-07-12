@@ -18,8 +18,8 @@ class User < ApplicationRecord
     has_many :api_tokens, foreign_key: 'user_id'
     has_many :documents, foreign_key: 'creator_id'
     validates :screen_name, uniqueness: true
-    validates :uid, uniqueness: true 
-    validates :name, presence: true
+    validates :uid, uniqueness: true, presence: true
+    validates :name, presence: true, uniqueness: true
     validates :screen_name, presence: true
 
     def User.digest(string)

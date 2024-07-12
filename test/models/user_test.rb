@@ -37,7 +37,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not create user without uid" do
-    skip ''
     user = @user_template.clone
     user[:uid] = nil
     assert_not User.new(user).save
@@ -58,7 +57,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not create user with_same_name" do
-    skip ''
     user = @user_template.clone
     User.create(user)
     user[:screen_name] ="other_screen_name"
