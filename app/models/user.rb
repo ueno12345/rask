@@ -20,6 +20,7 @@ class User < ApplicationRecord
     validates :screen_name, uniqueness: true
     validates :uid, uniqueness: true 
     validates :name, presence: true
+    validates :screen_name, presence: true
 
     def User.digest(string)
         cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
