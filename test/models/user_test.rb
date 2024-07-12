@@ -19,7 +19,6 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "should not create user without name" do
-    skip ''
     user = @user_template.clone
     user[:name] = nil
     assert_not User.new(user).save

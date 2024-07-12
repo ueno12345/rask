@@ -19,6 +19,7 @@ class User < ApplicationRecord
     has_many :documents, foreign_key: 'creator_id'
     validates :screen_name, uniqueness: true
     validates :uid, uniqueness: true 
+    validates :name, presence: true
 
     def User.digest(string)
         cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :
