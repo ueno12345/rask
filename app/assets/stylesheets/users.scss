@@ -1,0 +1,21 @@
+// Place all the styles related to the Users controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.user-tile {
+  display: grid;
+  grid-template-columns: 2em 1fr;
+}
+
+.user-tile-icon {
+  position: relative;
+
+  :first-child {
+    position: absolute;
+    bottom: 0.5rem;
+  }
+}
+
+.user-tile-profile {
+  grid-column-start: 2;
+}

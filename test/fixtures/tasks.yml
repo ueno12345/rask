@@ -1,0 +1,38 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  content: MyText
+  user: one
+  assigner: one
+  due_at: 2021-07-16 12:22:22
+  description: test
+  project : one
+  state: todo
+
+two:
+  content: MyText
+  user: one
+  assigner: two
+  due_at: 2021-07-16 12:22:22
+  description: test
+  project: one
+  state: done
+
+task_has_tag:
+  id: 1
+  content: MyText
+  user: one
+  assigner: two
+  due_at: 2021-07-16 12:22:22
+  description: test
+  project: one
+  state: done
+
+belong_to_project:
+  content: MyText
+  user: one
+  assigner: two
+  due_at: 2021-07-16 12:22:22
+  description: test
+  project: has_task
+  state: todo

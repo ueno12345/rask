@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rask</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "application", "data-turbo-track": "reload", defer: true %>
+    <%= stylesheet_link_tag 'tab' %>
+    <%= stylesheet_link_tag 'tasks' %>
+    <%= stylesheet_link_tag 'users' %>
+    <%= stylesheet_link_tag 'jfm' %>
+    <%= stylesheet_link_tag 'github-markdown' %>
+    <%= stylesheet_link_tag "inter-font" %>
+    <%= stylesheet_link_tag "tailwind" %>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" crossorigin="anonymous"/>
+
+    <%= javascript_importmap_tags %>
+    <script type="module">
+      import "prevent_transition_in_editing";
+    </script>
+
+  </head>
+
+  <body>
+    <%= render 'layouts/header' %>
+    <% flash.each do |message_type, message| %>
+      <% message_color = {:notice => "blue", :success => "blue", :danger => "yellow", :alert => "red"} %>
+      <p class="m-3 p-3 bg-<%= message_color[message_type.to_sym] %>-400 text-white rounded">
+        <%= message %>
+      </p>
+    <% end %>
+    <div class="flex">
+      <div class="w-1/4 p-3">
+        <%= render 'layouts/tag_list' %>
+      </div>
+      <div class="w-3/4">
+        <div class="container mx-auto max-w-5xl p-5">
+          <%= yield %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
