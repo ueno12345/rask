@@ -1,0 +1,22 @@
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+/home/ueno/.rbenv/versions/3.3.6/bin/ruby extconf.rb
+checking for fdatasync() in unistd.h... yes
+checking for whether -D_GNU_SOURCE is accepted as CPPFLAGS... yes
+checking for whether -O3 is accepted as CFLAGS... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-75ivpl sitelibdir\=./.gem.20241112-222287-75ivpl clean
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-75ivpl sitelibdir\=./.gem.20241112-222287-75ivpl
+compiling bootsnap.c
+linking shared-object bootsnap/bootsnap.so
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-75ivpl sitelibdir\=./.gem.20241112-222287-75ivpl install
+/usr/bin/install -c -m 0755 bootsnap.so ./.gem.20241112-222287-75ivpl/bootsnap
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bootsnap-1.18.4/ext/bootsnap
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-75ivpl sitelibdir\=./.gem.20241112-222287-75ivpl clean

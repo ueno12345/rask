@@ -1,0 +1,18 @@
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+/home/ueno/.rbenv/versions/3.3.6/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241112-220967-ezrdaf sitelibdir\=./.gem.20241112-220967-ezrdaf clean
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241112-220967-ezrdaf sitelibdir\=./.gem.20241112-220967-ezrdaf
+compiling cparse.c
+linking shared-object racc/cparse.so
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241112-220967-ezrdaf sitelibdir\=./.gem.20241112-220967-ezrdaf install
+/usr/bin/install -c -m 0755 cparse.so ./.gem.20241112-220967-ezrdaf/racc
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/racc-1.8.1/ext/racc/cparse
+make DESTDIR\= sitearchdir\=./.gem.20241112-220967-ezrdaf sitelibdir\=./.gem.20241112-220967-ezrdaf clean

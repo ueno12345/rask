@@ -1,0 +1,18 @@
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+/home/ueno/.rbenv/versions/3.3.6/bin/ruby extconf.rb
+creating Makefile
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-us8ahi sitelibdir\=./.gem.20241112-222287-us8ahi clean
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-us8ahi sitelibdir\=./.gem.20241112-222287-us8ahi
+compiling cruby.c
+linking shared-object skiptrace/internal/cruby.so
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-us8ahi sitelibdir\=./.gem.20241112-222287-us8ahi install
+/usr/bin/install -c -m 0755 cruby.so ./.gem.20241112-222287-us8ahi/skiptrace/internal
+
+current directory: /home/ueno/tmp/rask/vendor/bundle/ruby/3.3.0/gems/bindex-0.8.1/ext/skiptrace
+make DESTDIR\= sitearchdir\=./.gem.20241112-222287-us8ahi sitelibdir\=./.gem.20241112-222287-us8ahi clean
