@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+# This model initially had no columns defined. If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+done:
+  name: done
+  priority: 0
+  color: black
+  about: 完了した Task
+
+todo:
+  name: todo
+  priority: 1
+  color: red
+  about: やるべき Task
+
+draft:
+  name: draft
+  priority: 2
+  color: gray
+  about: 書きかけの Task

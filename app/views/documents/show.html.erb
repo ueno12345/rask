@@ -1,0 +1,51 @@
+<%= render 'layouts/h1', title: @document.content %>
+
+<div class="my-3">
+  <p class="text-xl">
+    <%= @document.start_at&.strftime('%Y-%m-%d %H:%M') %>
+    〜
+    <%= @document.end_at&.strftime('%Y-%m-%d %H:%M') %>
+  <p class="text-xl">作成者:
+    <%= link_to_if @document.creator&.name, @document.creator.name, @document.creator %>
+  <p class="text-xl">所属プロジェクト:
+    <%= link_to_if  @document.project&.name, @document.project&.name, @document.project %>
+  </p>
+  <br>
+  <p class="text-xl">タグ:
+    <% @document.tags.each do |tag| %>
+      <%= link_to tag_label(tag), tag %>
+    <% end %>
+  </p>
+  <br>
+  <p class="text-xl block font-bold mb-2">文書内容
+  <%= link_to document_path(@document, "txt"), title: "Download txt", download: @document.content + ".txt" do %>
+    <i class="fa fa-download"></i> 
+  <% end %>
+  </p>
+  <div class="markdown-body">
+    <% desc = JayFlavoredMarkdownConverter.new(@document.description).content %>
+    <% desc.each_line do |line| %>
+      <% matched = line.match(/--(>|&gt;)\(([^ ]+).* !:([0-9]+)\)/) %>
+      <% if matched != nil %>
+        <%== $` %>
+        <% task_url = ActionItem.find_by(uid:matched[3].to_i)&.task_url %>
+        <% assigner = User.find_by(screen_name:matched[2].to_s) %>
+        <% if task_url != nil %>
+          <%= link_to "(#{matched[2]} #{task_url})", task_url.to_s %>
+        <% else %>
+          <% message = "Created from [AI#{matched[3]}](#{request.url.split('?').first}?ai=#{matched[3]})" %>
+          <% if assigner != nil %>
+            <% assigner_id = assigner.id %>
+          <% end %>
+          <%= link_to matched[0].html_safe, new_task_path(assigner_id: assigner_id, project_id: @document.project_id, desc_header: message) %>
+        <% end %>
+        <%== $' %>
+      <% else %>
+        <%== line %>
+      <% end %>
+    <% end %>
+  </div>
+  </p>
+  <%= link_to '編集', edit_document_path(@document) %>
+</div>
+<%= javascript_pack_tag 'documents' %>
